@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp Tools - DARK VERSE v1</title>
+    <style>
+        body {
+            font-family: 'Courier New', monospace;
+            background: #0a0a0a;
+            color: #00ff00;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            border: 2px solid #ff0000;
+            padding: 20px;
+            border-radius: 10px;
+            background: #111;
+        }
+        h1 {
+            color: #ff0055;
+            text-shadow: 0 0 10px #ff0055;
+        }
+        input, button {
+            width: 90%;
+            margin: 10px;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        input {
+            background: #222;
+            color: #00ffaa;
+        }
+        button {
+            background: linear-gradient(45deg, #ff0000, #9900ff);
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        button:hover {
+            background: linear-gradient(45deg, #9900ff, #ff0000);
+        }
+        #status {
+            margin-top: 20px;
+            padding: 15px;
+            background: #1a1a1a;
+            border-left: 5px solid #00aaff;
+            text-align: left;
+            font-size: 14px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .warning {
+            color: #ff9900;
+            font-size: 12px;
+            border: 1px dashed #ff9900;
+            padding: 10px;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔷 WhatsApp Brutal Spammer v1.0 🔷</h1>
+        <p class="warning">⚠️ Gunakan dengan tanggung jawab. Tools ini hanya untuk edukasi keamanan.</p>
+        
+        <div>
+            <input type="text" id="number" placeholder="Nomor target (contoh: 628123456789)" />
+            <input type="number" id="amount" placeholder="Jumlah spam" value="50" />
+            <input type="text" id="message" placeholder="Pesan spam (opsional)" value="⚠️ DARK VERSE v1 WAS HERE ⚠️" />
+            
+            <button onclick="startSpam()">🚀 MULAI SPAM (Brutal Mode)</button>
+            <button onclick="generateQrSpam()">📷 GENERATE QR PAIRING SPAM</button>
+            <button onclick="fakeCall()">📞 FAKE CALL BOMBING</button>
+            <button onclick="resetAll()">🔄 RESET</button>
+        </div>
+        
+        <div id="status">[Status] Tools siap. Masukkan target dan jumlah.</div>
+    </div>
+
+    <script>
+        // Config
+        const API_URL = "https://api.whatsapp.com/send?phone=";
+        
+        // Status updater
+        function logStatus(msg) {
+            const statusDiv = document.getElementById("status");
+            statusDiv.innerHTML += `<br>${new Date().toLocaleTimeString()}: ${msg}`;
+            statusDiv.scrollTop = statusDiv.scrollHeight;
+        }
+        
+        // Main Spammer
+        function startSpam() {
+            let target = document.getElementById("number").value.trim();
+            let amount = parseInt(document.getElementById("amount").value);
+            let message = encodeURIComponent(document.getElementById("message").value);
+            
+            if (!target || amount <= 0) {
+                logStatus("[ERROR] Nomor atau jumlah tidak valid!");
+                return;
+            }
+            
+            logStatus(`[+] Memulai spam ke ${target} sebanyak ${amount}x...`);
+            
+            for (let i = 1; i <= amount; i++) {
+                setTimeout(() => {
+                    window.open(`${API_URL}${target}&text=${message}`, '_blank');
+                    logStatus(`[${i}] Spam terkirim ke ${target}`);
+                }, i * 500); // Delay 500ms antar spam
+            }
+            
+            logStatus("[√] Spam selesai! Cek tab browser yang terbuka.");
+        }
+        
+        // QR Pairing Generator (Fake)
+        function generateQrSpam() {
+            let target = document.getElementById("number").value.trim();
+            if (!target) {
+                logStatus("[ERROR] Masukkan nomor target dulu!");
+                return;
+            }
+            
+            logStatus("[+] Membuat QR pairing palsu...");
+            
+            // Generate random QR data (fake WhatsApp pairing)
+            const fakeCode = Math.random().toString(36).substring(2, 15);
+            const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://wa.me/qr/${fakeCode}`;
+            
+            // Buka QR di tab baru
+            window.open(qrUrl, '_blank');
+            logStatus(`[√] QR pairing palsu dibuat: ${fakeCode}`);
+            logStatus("[INFO] Kirim gambar QR ini ke target untuk spam pairing request.");
+        }
+        
+        // Fake Call Bombing (Phishing mode)
+        function fakeCall() {
+            logStatus("[+] Memulai fake call bombing...");
+            const audio = new Audio('https://www.soundjay.com/buttons/beep-01a.mp3');
+            audio.loop = true;
+            audio.play();
+            
+            setTimeout(() => {
+                audio.pause();
+                logStatus("[√] Fake call selesai (simulasi).");
+            }, 5000);
+        }
+        
+        function resetAll() {
+            document.getElementById("number").value = "";
+            document.getElementById("amount").value = "50";
+            document.getElementById("message").value = "⚠️ DARK VERSE v1 WAS HERE ⚠️";
+            document.getElementById("status").innerHTML = "[Status] Direset. Tools siap.";
+        }
+    </script>
+</body>
+</html>
